@@ -22,3 +22,28 @@ class Company():
             raise Exception()
     
     name = property(get_name, set_name)
+@classmethod
+def create_table(cls):
+    sql = """
+        CREATE TABLE IF NOT EXISTS companies (
+         id INTEGER PRIMARY KEY,
+            name TEXT,
+            founding_year INTEGER  
+            )
+        """
+    CURSOR.execute(sql)
+    
+@classmethod
+def drop_table(cls):
+    sql = "DROP TABLE IF EXISTS companies"
+    CURSOR.execute(sql)
+        
+    
+def save(self):
+    sql = """
+        INSERT INTO companies (name, founding_year)
+        VALUES (?, ?)
+        """
+    CURSOR.execute(sql, (self.name, self.founding_year))
+    CONN.commit()
+    self.id = CURSOR.lastrowid
